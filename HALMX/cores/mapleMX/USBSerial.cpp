@@ -102,7 +102,7 @@ int USBSerial::read(void)
 void USBSerial::flush(void){
   //It's not implemented yet.
 }
-
+/*
 size_t USBSerial::write(const uint8_t *buffer, size_t size){
   HAL_NVIC_DisableIRQ(USB_LP_CAN1_RX0_IRQn);
   if(hUsbDeviceFS.dev_state == USBD_STATE_CONFIGURED){
@@ -111,6 +111,24 @@ size_t USBSerial::write(const uint8_t *buffer, size_t size){
   HAL_NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
   return 1;
 }
+*/
+
+size_t USBSerial::write(const uint8_t *buffer, size_t size)
+{
+	unsigned long timeout=millis()+5;
+  if(hUsbDeviceFS.dev_state == USBD_STATE_CONFIGURED)
+  { 
+    while(millis()<timeout)
+	{
+      if(CDC_Transmit_FS((uint8_t*)buffer, size) == USBD_OK)
+	  {
+         return size;
+      }
+    }
+  }
+  return 0;
+}
+
 
 size_t USBSerial::write(uint8_t c) {
 	return write(&c, 1);
