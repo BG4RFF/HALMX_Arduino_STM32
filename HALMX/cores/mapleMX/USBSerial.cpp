@@ -38,17 +38,27 @@ USBSerial::USBSerial(){
 }
 
 void USBSerial::init(void){
-  volatile unsigned int i;
-  GPIO_InitStruct.Pin = GPIO_PIN_12;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  /* Re-enumerate the USB */
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
-	for(i=0;i<512;i++);
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+ 
+  /* Re-enumerate the USB */ 
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;  
   
-  MX_USB_DEVICE_Init();
+#if defined(USB_DISC_PORT) 
+	GPIO_InitStruct.Pin = USB_DISC_PIN;
+
+	HAL_GPIO_Init(USB_DISC_PORT, &GPIO_InitStruct);
+
+	HAL_GPIO_WritePin(USB_DISC_PORT, USB_DISC_PIN, GPIO_PIN_RESET);
+#else
+	GPIO_InitStruct.Pin = GPIO_PIN_12;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+	for(volatile unsigned int i=0;i<512;i++);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+#endif
+  
+	MX_USB_DEVICE_Init();
 }
 
 
@@ -66,7 +76,9 @@ void USBSerial::begin(uint32_t baud_count, uint8_t config){
 }
 
 void USBSerial::end(void){
-  
+#if defined(USB_DISC_PORT) 
+	HAL_GPIO_WritePin(USB_DISC_PORT, USB_DISC_PIN, GPIO_PIN_SET);
+#endif  
 }
 
 

@@ -168,6 +168,39 @@ MXBluePillF103C8.menu.upload_method.STLinkMethod.build.extra_flags=-DSTM32F103xB
 MXBluePillF103C8.menu.upload_method.STLinkMethod.build.ldscript=SW4STM32/MXBluePillF103C8/STM32F103C8Tx_FLASH.ld
 
 ##############################################################
+
+MXMapleMini.name=Maple mini
+MXMapleMini.upload.maximum_size=65536
+
+MXMapleMini.upload.file_type=bin
+MXMapleMini.upload.ram.maximum_size=20480
+MXMapleMini.upload.flash.maximum_size=57344
+MXMapleMini.upload.params.quiet=no
+
+MXMapleMini.build.mcu=cortex-m3
+MXMapleMini.build.f_cpu=72000000L
+MXMapleMini.build.board=Generic_STM32F103C8
+MXMapleMini.build.core=mapleMX
+MXMapleMini.build.common_flags=-mthumb  -D__STM32F1__ 
+
+MXMapleMini.build.variant=MXBluePillF103C8
+MXMapleMini.build.variant_system_lib=lib_f103.a
+
+MXMapleMini.build.CMSISInc=STM32F1xx/Include
+MXMapleMini.build.DRIVERS=STM32F1xx_HAL_Driver/Inc
+
+
+MXMapleMini.menu.upload_method.DFUUploadMethod=STM32duino bootloader
+MXMapleMini.menu.upload_method.DFUUploadMethod.upload.protocol=maple_dfu
+MXMapleMini.menu.upload_method.DFUUploadMethod.upload.tool=maple_upload
+MXMapleMini.menu.upload_method.DFUUploadMethod.upload.usbID=1EAF:0003
+MXMapleMini.menu.upload_method.DFUUploadMethod.upload.altID=2
+MXMapleMini.menu.upload_method.DFUUploadMethod.build.extra_flags=-DUSB_DISC_PORT=GPIOB -DUSB_DISC_PIN=GPIO_PIN_9 -DSTM32F103xB -DSTM32_MEDIUM_DENSITY -DSTM32F1 -DBOARD_NUCLEO_F103RB -DVECT_TAB_OFFSET=0x02000
+MXMapleMini.menu.upload_method.DFUUploadMethod.build.ldscript=SW4STM32/MXBluePillF103C8/STM32F103C8Tx_FLASH_0x2000.ld
+
+
+
+##############################################################
 #MXDiscoF051R8.name=STM Discovery F0 (HALMX)
 
 #MXDiscoF051R8.upload.tool=stlink_upload
