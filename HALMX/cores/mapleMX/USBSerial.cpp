@@ -37,6 +37,7 @@ USBSerial::USBSerial(){
   //tx_buffer.iHead = tx_buffer.iTail = 0;
 }
 
+
 void USBSerial::init(void){
  
   /* Re-enumerate the USB */ 
@@ -45,9 +46,10 @@ void USBSerial::init(void){
   
 #if defined(USB_DISC_PORT) 
 	GPIO_InitStruct.Pin = USB_DISC_PIN;
-
 	HAL_GPIO_Init(USB_DISC_PORT, &GPIO_InitStruct);
 
+	HAL_GPIO_WritePin(USB_DISC_PORT, USB_DISC_PIN, GPIO_PIN_SET);
+	for(volatile unsigned int i=0;i<512;i++);
 	HAL_GPIO_WritePin(USB_DISC_PORT, USB_DISC_PIN, GPIO_PIN_RESET);
 #else
 	GPIO_InitStruct.Pin = GPIO_PIN_12;

@@ -64,7 +64,7 @@
 #define USBD_PID_FS   0x0004  
 //0x5740   
 //22336
-#define USBD_PRODUCT_STRING_FS     "Maple Serial"
+#define USBD_PRODUCT_STRING_FS     "Maple"
 //"STM32 Virtual ComPort"
 #define USBD_SERIALNUMBER_STRING_FS     "00000000001A"
 #define USBD_CONFIGURATION_STRING_FS     "CDC Config"
